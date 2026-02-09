@@ -10,11 +10,8 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy
+      - name: Deploy to server
         run: |
           cd /var/www/hello_world
-          git pull origin master
-
+          git fetch origin
+          git reset --hard origin/master
