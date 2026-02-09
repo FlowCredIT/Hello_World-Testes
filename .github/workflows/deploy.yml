@@ -7,22 +7,14 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH
+      - name: Deploy
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H 10.40.92.2 >> ~/.ssh/known_hosts
+          cd /var/www/hello_world
+          git pull origin master
 
-      - name: Deploy to server
-        run: |
-          ssh deploy@10.40.92.2 << 'EOF'
-            cd /var/www/hello_world
-            git pull origin master
-          EOF
